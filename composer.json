@@ -1,0 +1,16 @@
+{
+    "name": "neusta/codeceptiontraining",
+    "description": "codeception training",
+    "type": "project",
+    "require": {
+        "codeception/codeception": "^2.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benjamin Kluge",
+            "email": "b.kluge@neusta.de"
+        }
+    ],
+    "minimum-stability": "stable"
+}
