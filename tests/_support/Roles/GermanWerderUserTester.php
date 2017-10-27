@@ -21,4 +21,5 @@ use Codeception\Scenario;
 class GermanWerderUserTester extends \AcceptanceTester
 {
     protected $portalUrl = 'https://www.werder.de';
+    protected $shopUrl = 'https://www.werder.de/shop';
 }
