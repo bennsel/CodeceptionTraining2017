@@ -22,4 +22,9 @@ class GermanWerderUserTester extends \AcceptanceTester
 {
     protected $portalUrl = 'https://www.werder.de';
     protected $shopUrl = 'https://www.werder.de/shop';
+
+    public function init()
+    {
+        $this->setMapping([]);
+    }
 }

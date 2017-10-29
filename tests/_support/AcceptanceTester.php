@@ -23,43 +23,15 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    protected $mapping = [];
-
-    public function __construct(\Codeception\Scenario $scenario)
-    {
-        parent::__construct($scenario);
-
-        $this->mapping = [
-            "jersey designer" => "#jerseyform",
-            "jersey preview" => ".c-jersey-designer-preview-jersey",
-            "tab home" => Locator::contains(".c-jersey-designer-tabs__item","HOME"),
-            "tab away" => Locator::contains(".c-jersey-designer-tabs__item","AWAY"),
-            "tab event" => Locator::contains(".c-jersey-designer-tabs__item","EVENT"),
-            "tab torwart" => Locator::contains(".c-jersey-designer-tabs__item","Torwart"),
-            "home jersey picture" => ".c-jersey-designer-preview-jersey__image[src*=home]",
-            "away jersey picture" => ".c-jersey-designer-preview-jersey__image[src*=away]",
-            "flock option" => "#flockingtext_designer",
-            "number" => "#flock-individual-number_designer",
-            "name" => "#flock-individual-text_designer",
-            "size option" => "#size_designer",
-            "logo option" => "#logo_designer",
-            "number 0" => ".c-jersey-designer-number--0",
-            "IN MEINEN WARENKORB" => "#jd_add_button",
-            "main area" => ".o-page-wrap",
-            "Absenden" => '#neusta_clubportal_contactbundle_form_type_contact_save',
-            "error message" => '.c-alert',
-        ];
-    }
-
     /**
-     * getMappedVariable
+     * init function should be called at the beginning
      *
-     * @param $var
-     * @return mixed
+     * @internal
+     * @return void
      */
-    protected function getMappedVariable($var)
+    public function init()
     {
-        return $this->mapping[$var] ?? $var;
+        $this->setMapping([]);
     }
 
     /**
@@ -67,8 +39,19 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function amOnWebPage()
     {
+        $this->init();
         $this->amOnUrl($this->portalUrl);
         $this->executeJS('jQuery(".js-slide-in").remove()');
+    }
+
+
+    /**
+     * @Given am on shop page
+     */
+    public function amOnShopPage()
+    {
+        $this->init();
+        $this->amOnUrl($this->shopUrl);
     }
 
     /**
@@ -109,14 +92,6 @@ class AcceptanceTester extends \Codeception\Actor
     public function iSeeInText($arg1, $arg2)
     {
         $this->performOn($this->getMappedVariable($arg1), ActionSequence::build()->see($arg2));
-    }
-
-    /**
-     * @Given am on shop page
-     */
-    public function amOnShopPage()
-    {
-        $this->amOnUrl($this->shopUrl);
     }
 
     /**
