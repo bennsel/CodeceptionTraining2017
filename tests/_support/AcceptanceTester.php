@@ -201,7 +201,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function iSeeForFieldWith($arg1, $arg2, $arg3)
     {
         $containerClass = $this->getMappedVariable($arg1);
-        $groupedInput = Locator::contains('label', $arg2).'/ancestor::*[@class and contains(concat(\' \', normalize-space(@class), \' \'), \' c-form-group \')]';
+        $groupedInput = $this->locatorParentUntil(Locator::contains('label', $arg2), '.c-form-group');
 
         $this->see($arg3, $groupedInput . '/' . Locator::contains($containerClass, ''));
     }
@@ -212,7 +212,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function iDontSeeForField($arg1, $arg2)
     {
         $containerClass = $this->getMappedVariable($arg1);
-        $groupedInput = Locator::contains('label', $arg2).'/ancestor::*[@class and contains(concat(\' \', normalize-space(@class), \' \'), \' c-form-group \')]';
+        $groupedInput = $this->locatorParentUntil(Locator::contains('label', $arg2), '.c-form-group');
         $this->dontSeeElement($groupedInput . '/' . Locator::contains($containerClass, ''));
     }
 
@@ -221,9 +221,22 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSeeTextInField($arg1, $arg2)
     {
-        $groupedInput = Locator::contains('label', $arg2).'/ancestor::*[@class and contains(concat(\' \', normalize-space(@class), \' \'), \' c-form-group \')]';
+        $groupedInput = $this->locatorParentUntil(Locator::contains('label', $arg2), '.c-form-group');
         $fields = Locator::combine(Locator::contains('input', ''), Locator::contains('textarea', ''));
         $this->seeInField($groupedInput . '/' . $fields, $arg1);
+    }
+
+    /**
+     * locatorParentUntil
+     *
+     * @param string $locator
+     * @param string $parentElement
+     * @return string
+     */
+    protected function locatorParentUntil(string $locator, string $parentElement) {
+        $xpath = (new \Symfony\Component\CssSelector\CssSelectorConverter())->toXPath($parentElement, 'ancestor::');
+
+        return $locator . '/' . $xpath;
     }
 
 }
