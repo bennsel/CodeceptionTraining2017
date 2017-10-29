@@ -46,7 +46,8 @@ class AcceptanceTester extends \Codeception\Actor
             "number 0" => ".c-jersey-designer-number--0",
             "IN MEINEN WARENKORB" => "#jd_add_button",
             "main area" => ".o-page-wrap",
-            "Absenden" => '#neusta_clubportal_contactbundle_form_type_contact_save'
+            "Absenden" => '#neusta_clubportal_contactbundle_form_type_contact_save',
+            "error message" => '.c-alert',
         ];
     }
 
@@ -199,7 +200,10 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSeeForFieldWith($arg1, $arg2, $arg3)
     {
-        throw new \Codeception\Exception\Incomplete("Step `I see :arg1 for field :arg2 with :arg3` is not defined");
+        $containerClass = $this->getMappedVariable($arg1);
+        $groupedInput = Locator::contains('label', $arg2).'/ancestor::*[@class and contains(concat(\' \', normalize-space(@class), \' \'), \' c-form-group \')]';
+
+        $this->see($arg3, $groupedInput . '/' . Locator::contains($containerClass, ''));
     }
 
     /**
@@ -207,7 +211,9 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iDontSeeForField($arg1, $arg2)
     {
-        throw new \Codeception\Exception\Incomplete("Step `I dont see :arg1 for field :arg2` is not defined");
+        $containerClass = $this->getMappedVariable($arg1);
+        $groupedInput = Locator::contains('label', $arg2).'/ancestor::*[@class and contains(concat(\' \', normalize-space(@class), \' \'), \' c-form-group \')]';
+        $this->dontSeeElement($groupedInput . '/' . Locator::contains($containerClass, ''));
     }
 
     /**
@@ -215,7 +221,9 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSeeTextInField($arg1, $arg2)
     {
-        throw new \Codeception\Exception\Incomplete("Step `I see text :arg1 in field :arg2` is not defined");
+        $groupedInput = Locator::contains('label', $arg2).'/ancestor::*[@class and contains(concat(\' \', normalize-space(@class), \' \'), \' c-form-group \')]';
+        $fields = Locator::combine(Locator::contains('input', ''), Locator::contains('textarea', ''));
+        $this->seeInField($groupedInput . '/' . $fields, $arg1);
     }
 
 }

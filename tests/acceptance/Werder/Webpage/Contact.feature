@@ -23,7 +23,7 @@ Feature: Contact
     And I see "error message" for field "Nachname" with "Dieses Feld darf nicht leer bleiben, bitte fülle es aus."
     And I see "error message" for field "E-Mail" with "Dieses Feld darf nicht leer bleiben, bitte fülle es aus."
     And I see "error message" for field "Nachricht" with "Dieses Feld darf nicht leer bleiben, bitte fülle es aus."
-    And I see "error message" for field "Captcha" with "Code stimmt nicht überein"
+    And I see "error message" for field "captcha" with "Code stimmt nicht überein"
 
 
   Scenario: send filled contact formular except captcha and see only captcha error message
@@ -37,7 +37,7 @@ Feature: Contact
     And I dont see "error message" for field "Nachname"
     And I dont see "error message" for field "E-Mail"
     And I dont see "error message" for field "Nachricht"
-    And I see "error message" for field "Captcha" with "Code stimmt nicht überein"
+    And I see "error message" for field "captcha" with "Code stimmt nicht überein"
     And I see text "Peter" in field "Vorname"
     And I see text "Meier" in field "Nachname"
     And I see text "p.meier@example.de" in field "E-Mail"
